@@ -2,17 +2,67 @@
     "intro": "I love to learn new things and experiment with new technologies.\nThese are some of the major languages, technologies, tools and platforms I have worked with:",
     "skills": [{
      
-            "title": "Languages & Databases",
+        "title": "Cloud Platforms",
+        "items" : [
+            {
+                "icon": "images/skills/aws1.png",
+                "title": "Aws"
+            },
+            {
+                "icon": "images/skills/azure.png",
+                "title": "Azure"
+            },
+            {
+                "icon": "images/skills/digi.png",
+                "title": "Digital Ocean"
+            },
+            {
+                "icon": "images/skills/gcp.png",
+                "title": "Gcp"
+            }
+        ]
+    },
+        {
+            "title": "Technologies and Tools",
             "items" : [
-     
                 {
-                    "icon": "images/skills/java.png",
-                    "title": "Java"
+                    "icon": "images/skills/k8s.png",
+                    "title": "Kubernetes"
                 },
                 {
-                    "icon": "images/skills/php.png",
-                    "title": "PHP"
+                    "icon": "images/skills/git.png",
+                    "title": "Git"
                 },
+                {
+                    "icon": "images/skills/docker.png",
+                    "title": "Docker"
+                },
+                {
+                    "icon": "images/skills/prom.png",
+                    "title": "Prometheus"
+                },
+                {
+                    "icon": "images/skills/graf.png",
+                    "title": "Grafana"
+                },
+                {
+                    "icon": "images/skills/cloudwatch.png",
+                    "title": "Aws CloudWatch"
+                },
+                {
+                    "icon": "images/skills/datadog.png",
+                    "title": "DataDog"
+                },
+                {
+                    "icon": "images/skills/helm.png",
+                    "title": "Helm"
+                }
+            ]
+        },
+        {
+            "title": "Language & Scripting Languages",
+            "items" : [
+            
                 {
                     "icon": "images/skills/js.png",
                     "title": "JavaScript"
@@ -22,41 +72,53 @@
                     "title": "Python"
                 },
                 {
-                    "icon": "images/skills/mysql.png",
-                    "title": "MySQL"
+                    "icon": "images/skills/bash.png",
+                    "title": "Bash"
                 }
-        ]},
+            ]},
+            {
+                "title": "CI & CD Pipelines",
+                "items" : [
+                
+                    {
+                        "icon": "images/skills/github-a.png",
+                        "title": "Github Actions"
+                    },
+                    {
+                        "icon": "images/skills/jenkins.png",
+                        "title": "Jenkins"
+                    },
+                                        
+                    {
+                        "icon": "images/skills/azure-d.png",
+                        "title": "Azure DevOps"
+                    },
+                    
+                    {
+                        "icon": "images/skills/gitlab.png",
+                        "title": "Gitlab CI"
+                    },
+                                        
+                    {
+                        "icon": "images/skills/circle.png",
+                        "title": "Circle CI"
+                    }
+                ]},
+            
         {
-            "title": "Frameworks & Technologies",
-            "items" : [
-                {
-                    "icon": "images/skills/android_new.png",
-                    "title": "Android"
-                },
-                {
-                    "icon": "images/skills/react.png",
-                    "title": "React"
-                },
-                {
-                    "icon": "images/skills/nodejs.png",
-                    "title": "Nodejs"
-                }
-            ]
-        },
-        {
-            "title" : "Tools & Platforms",
+            "title" : "IAC ",
             "items": [
                 {
-                    "icon": "images/skills/android-studio.png",
-                    "title": "Android Studio"
+                    "icon": "images/skills/terra.png",
+                    "title": "Terraform"
                 },
                 {
-                    "icon": "images/skills/git.png",
-                    "title": "Git"
+                    "icon": "images/skills/cloud-f.png",
+                    "title": "Aws CloudFormation"
                 },
                 {
-                    "icon": "images/skills/docker.png",
-                    "title": "Docker"
+                    "icon": "images/skills/ansible.png",
+                    "title": "Ansible"
                 }
             ]
     }

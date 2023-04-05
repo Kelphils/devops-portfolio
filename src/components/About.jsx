@@ -23,6 +23,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'right',
     display: 'flex',
+    overflow: 'hidden',
+    // borderWidth: 10,
+    borderRadius: 400 / 2,
+    // flex: 1,
   },
 };
 
