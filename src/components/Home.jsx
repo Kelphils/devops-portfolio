@@ -8,6 +8,7 @@ import FallbackSpinner from './FallbackSpinner';
 const styles = {
   nameStyle: {
     fontSize: '5em',
+    fontFamily: 'Roboto',
   },
   inlineChild: {
     display: 'inline-block',

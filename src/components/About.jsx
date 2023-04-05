@@ -17,9 +17,11 @@ const styles = {
     fontWeight: 500,
   },
   introImageContainer: {
-    margin: 10,
+    // margin: 10,
+    width: '100vw',
+    height: '50vh',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'right',
     display: 'flex',
   },
 };
