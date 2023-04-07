@@ -1,19 +1,46 @@
 {
     "education":[
         {
-            "title": "Jun 20XX - Jun 20YY",
-            "cardTitle": "B.Tech, Computer Science",
-            "cardSubtitle":"XYZ University, City",
-            "cardDetailedText": "CGPA - 9.5",
+            "title": "Jun 2013 - Jun 2018",
+            "cardTitle": "B.Eng, Computer Engineering",
+            "cardSubtitle":"Federal University of Agriculture, Umudike, Abia State, Nigeria",
+            "cardDetailedText": "CGPA - 2.73",
             "icon" : {
                 "src": "images/education/lorem-ipsum.png"
             }
         },
         {
-            "title": "Apr 20XX",
+            "title": "Apr 2013",
             "cardTitle": "High School",
-            "cardSubtitle":"ABC School, City",
-            "cardDetailedText": "Marks - 95%"
+            "cardSubtitle":"His Grace High School, Enugu, Nigeria",
+            "cardDetailedText": "O'Level Results - WAEC, NECO"
         }
+    ],
+    "Trainings and Certifications": [{
+     
+        "title": "Certifications",
+        "items" : [
+            {
+                "name": "Aws Certified Solutions Architect - Associate",
+                "href": "https://www.goal.com",
+                "year" : "Mar 2016"
+            },
+            {
+                "name": "Aws Certified Cloud Practitioner",
+                "href": "https://www.twitter.com",
+                "year" : "May 2019"
+            },
+            {
+                "name": "Aws Certified SysOps Administrator - Associate",
+                "href": "https://www.jumia.com",
+                "year" : "Jun 2018"
+            },
+            {
+                "name": "Aws Certified Developer - Associate",
+                "href": "https://www.google.com",
+                "year" : "Oct 2017"
+            }
+        ]
+    }
     ]
 }
