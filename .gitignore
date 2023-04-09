@@ -22,3 +22,13 @@ package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.terraform
+secrets.auto.tfvars
+*.tfstate.*
+*.tfstate
+*.terraform.*
+*.terraform/
+.DS_Store
+terraform-log*
+*.tfplan
