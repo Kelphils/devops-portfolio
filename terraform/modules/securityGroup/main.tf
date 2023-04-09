@@ -27,9 +27,10 @@ data "aws_subnets" "default" {
 
 # create a security group to allow traffic to the load balancer
 resource "aws_security_group" "alb_sg" {
-  name   = "${var.project}-alb_sg"
-  vpc_id = data.aws_vpc.default.id
-  tags   = local.tags
+  name        = "${var.project}-alb_sg"
+  description = "Allow inbound traffic to the load balancer"
+  vpc_id      = data.aws_vpc.default.id
+  tags        = local.tags
 }
 
 resource "aws_security_group_rule" "allow_http_inbound" {
@@ -86,11 +87,10 @@ resource "aws_security_group_rule" "allow_ssh_inbound" {
   description       = "Allow SSH inbound traffic on port 22"
 
   # Allow inbound SSH requests
-  from_port        = local.ssh_port
-  to_port          = local.ssh_port
-  protocol         = local.tcp_protocol
-  cidr_blocks      = local.all_ips
-  ipv6_cidr_blocks = local.ipv6_ips
+  from_port   = local.ssh_port
+  to_port     = local.ssh_port
+  protocol    = local.tcp_protocol
+  cidr_blocks = local.all_ips
 }
 
 resource "aws_security_group_rule" "allow_nginx_inbound" {
