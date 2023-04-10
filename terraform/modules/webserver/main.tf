@@ -29,6 +29,7 @@ resource "aws_launch_configuration" "webserver" {
   image_id                    = data.aws_ami.ubuntu.id
   instance_type               = "t3.medium"
   security_groups             = [var.security_groups]
+  iam_instance_profile        = var.instance_profile
   key_name                    = var.key_name
   associate_public_ip_address = true
   # Render the User Data script as a template which is a bash script created in the current directory
@@ -85,7 +86,7 @@ resource "aws_cloudwatch_metric_alarm" "web_asg_cpu_alarm_up" {
   namespace           = "AWS/EC2"
   period              = "120"
   statistic           = "Average"
-  threshold           = "80"
+  threshold           = "75"
 
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.webserver_group.name
@@ -112,7 +113,7 @@ resource "aws_cloudwatch_metric_alarm" "web_asg_cpu_alarm_down" {
   namespace           = "AWS/EC2"
   period              = "120"
   statistic           = "Average"
-  threshold           = "20"
+  threshold           = "30"
 
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.webserver_group.name
@@ -121,3 +122,59 @@ resource "aws_cloudwatch_metric_alarm" "web_asg_cpu_alarm_down" {
   alarm_description = "This metric monitor EC2 instance CPU utilization"
   alarm_actions     = [aws_autoscaling_policy.web_asg_policy_down.arn]
 }
+
+
+#ASG Scale-up Policy based on memory
+resource "aws_autoscaling_policy" "web_asg_policy_mem_up" {
+  name                   = "${var.project}_web_asg_policy_mem_up"
+  scaling_adjustment     = 1
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.webserver_group.name
+}
+
+resource "aws_cloudwatch_metric_alarm" "web_asg_mem_alarm_up" {
+  alarm_name          = "${var.project}_web_asg_mem_alarm_up"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "mem_used_percent"
+  namespace           = "CWAgent"
+  period              = "120"
+  statistic           = "Average"
+  threshold           = "80"
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.webserver_group.name
+  }
+
+  alarm_description = "This metric monitors EC2 instance memory utilization"
+  alarm_actions     = [aws_autoscaling_policy.web_asg_policy_mem_up.arn]
+}
+
+#ASG Scale-down Policy based on memory
+resource "aws_autoscaling_policy" "web_asg_policy_mem_down" {
+  name                   = "${var.project}_web_asg_policy_mem_down"
+  scaling_adjustment     = -1
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.webserver_group.name
+}
+
+resource "aws_cloudwatch_metric_alarm" "web_asg_mem_alarm_down" {
+  alarm_name          = "${var.project}_web_asg_mem_alarm_down"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "mem_used_percent"
+  namespace           = "CWAgent"
+  period              = "120"
+  statistic           = "Average"
+  threshold           = "20"
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.webserver_group.name
+  }
+
+  alarm_description = "This metric monitors EC2 instance memory utilization"
+  alarm_actions     = [aws_autoscaling_policy.web_asg_policy_mem_down.arn]
+}
+

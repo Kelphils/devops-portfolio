@@ -19,3 +19,8 @@ variable "project" {
   default     = "Cv-React-App"
   type        = string
 }
+
+variable "instance_profile" {
+  description = "The name of the instance profile for cw agent on Ec2 instance"
+  type        = string
+}

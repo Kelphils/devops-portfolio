@@ -7,6 +7,9 @@ module "acm" {
   source = "./modules/acm"
 }
 
+module "iam" {
+  source = "./modules/iam"
+}
 module "securityGroup" {
   source           = "./modules/securityGroup"
   depends_on       = [module.acm]
@@ -30,6 +33,7 @@ module "webServer" {
   #   alb_tls_cert_arn = module.acm.acm_certificate_arn
   aws_lb_target_group_arn = module.targetGroup.target_group_arn
   security_groups         = module.securityGroup.instance_sg_id
+  instance_profile        = module.iam.cw_agent_instance_profile
 }
 
 module "dns" {
@@ -39,11 +43,14 @@ module "dns" {
 }
 
 module "ci-cd-server" {
-  source          = "./modules/ci-cd-server"
-  security_groups = module.securityGroup.instance_sg_id
+  source           = "./modules/ci-cd-server"
+  security_groups  = module.securityGroup.instance_sg_id
+  instance_profile = module.iam.codedeploy_instance_profile
+
 }
 
 module "codeDeploy" {
-  source   = "./modules/codeDeploy"
-  asg_name = module.ci-cd-server.ci_cd_instance_ids
+  source               = "./modules/codeDeploy"
+  asg_name             = module.ci-cd-server.ci_cd_instance_ids
+  code_deploy_role_arn = module.iam.codedeploy_role_arn
 }

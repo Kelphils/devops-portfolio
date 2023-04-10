@@ -14,3 +14,8 @@ variable "asg_name" {
   description = "The name of the autoscaling group"
   type        = string
 }
+
+variable "code_deploy_role_arn" {
+  description = "The ARN of the CodeDeploy role"
+  type        = string
+}

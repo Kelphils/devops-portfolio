@@ -31,6 +31,7 @@ resource "aws_launch_configuration" "ci_cd_server" {
   security_groups             = [var.security_groups]
   key_name                    = var.key_name
   associate_public_ip_address = true
+  iam_instance_profile        = var.instance_profile
 
   # Render the User Data script as a template which is a bash script created in the current directory
   user_data = file("codedeploy_agent_install.sh")
