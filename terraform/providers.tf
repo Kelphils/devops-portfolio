@@ -15,7 +15,7 @@ terraform {
   # terraform init -backend-config=backend.hcl
   backend "s3" {
     bucket = "static-website-hosting-terraform-state"
-    key    = "modules/react-nginx/terraform.tfstate"
+    key    = "modules/nginx-react/terraform.tfstate"
   }
 }
 

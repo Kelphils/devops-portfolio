@@ -2,7 +2,18 @@
 # terraform state in S3 bucket with the DynamoDb table as the backend and encryption, locking enabled
 # terraform init -backend-config=backend.hcl
 
+locals {
+  # Dynamic repo list
+  deployment = {
+    Repo-1 = {
+      repo = "GitHub-Account-Name/Repo-1-Name"
+    }
+    # Repo-2 = {
+    #   repo = "GitHub-Account-Name/Repo-2-Name"
+    # }
 
+  }
+}
 module "acm" {
   source = "./modules/acm"
 }
