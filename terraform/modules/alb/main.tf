@@ -21,7 +21,7 @@ locals {
     }]
   }
 
-  tags = { Name = "${var.project}-ManagedBy-Terraform" }
+  tags = { Name = "${var.project}-Alb-ManagedBy-Terraform" }
 
 }
 

@@ -10,7 +10,7 @@ locals {
   ipv6_ips     = ["::/0"]
 
 
-  tags = { Name = "${var.project}-ManagedBy-Terraform" }
+  tags = { Name = "${var.project}-Sg-ManagedBy-Terraform" }
 }
 
 # data to view subnet resources within the vpc
@@ -60,7 +60,7 @@ resource "aws_security_group_rule" "allow_all_outbound" {
 }
 
 resource "aws_security_group_rule" "allow_https_inbound" {
-  count             = var.alb_tls_cert_arn != "" ? 1 : 0
+  # count             = var.alb_tls_cert_arn != "" ? 1 : 0
   type              = "ingress"
   security_group_id = aws_security_group.alb_sg.id
   description       = "Allow TLS inbound traffic on port 443"

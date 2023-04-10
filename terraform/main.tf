@@ -9,11 +9,13 @@ module "acm" {
 
 module "securityGroup" {
   source           = "./modules/securityGroup"
+  depends_on       = [module.acm]
   alb_tls_cert_arn = module.acm.acm_certificate_arn
 }
 
 module "alb" {
   source              = "./modules/alb"
+  depends_on          = [module.acm]
   alb_tls_cert_arn    = module.acm.acm_certificate_arn
   alb_security_groups = module.securityGroup.alb_sg_id
 }
@@ -34,4 +36,14 @@ module "dns" {
   source       = "./modules/dns"
   alb_dns_name = module.alb.alb_dns_name
   alb_zone_id  = module.alb.alb_zone_id
+}
+
+module "ci-cd-server" {
+  source          = "./modules/ci-cd-server"
+  security_groups = module.securityGroup.instance_sg_id
+}
+
+module "codeDeploy" {
+  source   = "./modules/codeDeploy"
+  asg_name = module.ci-cd-server.ci_cd_instance_ids
 }

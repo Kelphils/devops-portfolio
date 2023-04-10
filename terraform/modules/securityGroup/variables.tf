@@ -7,4 +7,5 @@ variable "project" {
 variable "alb_tls_cert_arn" {
   description = "The ARN of the certificate to use for HTTPS"
   type        = string
+  default     = ""
 }

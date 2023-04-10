@@ -3,7 +3,7 @@
 #   value       = aws_launch_configuration.webserver[*].public_ip
 # }
 
-output "ec2_instance_ids" {
-  description = "IDs of EC2 instances"
+output "launch_config_id" {
+  description = "ID of launch configuration"
   value       = aws_launch_configuration.webserver[*].id
 }
