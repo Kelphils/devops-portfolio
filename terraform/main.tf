@@ -65,3 +65,8 @@ module "codeDeploy" {
   asg_name             = module.ci-cd-server.ci_cd_instance_ids
   code_deploy_role_arn = module.iam.codedeploy_role_arn
 }
+
+module "codeBuild" {
+  source         = "./modules/codeBuild"
+  codebuild_role = module.iam.codebuild_role_arn
+}

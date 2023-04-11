@@ -1,7 +1,5 @@
 # data "aws_caller_identity" "current" {}
 
-
-
 resource "aws_codedeploy_app" "react_app" {
   name             = "${var.project}-code-deploy-app"
   compute_platform = "Server"
@@ -60,4 +58,6 @@ resource "aws_codedeploy_deployment_group" "cd_dg" {
   # }
 
   autoscaling_groups = [var.asg_name]
+
+  tags = { Name = "${var.project}-Codedeploy-ManagedBy-Terraform" }
 }

@@ -22,6 +22,7 @@ sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 git clone https://github.com/Kelphils/devops-portfolio.git
 sleep 10
 sudo cp $HOME/devops-portfolio/terraform/cw_agent_config.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+sudo cp $HOME/devops-portfolio/terraform/cw_agent_config.json .
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
 
 # check if cloudwatch_agent is running
