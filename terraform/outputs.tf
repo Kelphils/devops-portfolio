@@ -7,3 +7,12 @@ output "app-dns-url" {
 #   value       = module.webServer.ec2_instance_ids
 #   description = "IDs of EC2 instances"
 # }
+
+output "codepipeline_name" {
+  value = {
+    for key, value in local.deployment :
+    key => module.codePipeline[key].codepipeline_name
+  }
+  description = "Name of CodePipeline"
+}
+

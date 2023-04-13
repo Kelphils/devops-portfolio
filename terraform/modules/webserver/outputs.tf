@@ -7,3 +7,8 @@ output "launch_config_id" {
   description = "ID of launch configuration"
   value       = aws_launch_configuration.webserver[*].id
 }
+
+output "asg_name" {
+  description = "Name of autoscaling group"
+  value       = aws_autoscaling_group.webserver_group.name
+}

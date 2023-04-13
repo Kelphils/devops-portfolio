@@ -9,8 +9,18 @@ data "aws_subnets" "default" {
     values = [data.aws_vpc.default.id]
   }
 }
+
+# The following example shows how to generate a random priority
+# between 1 and 50 for each codebuild project.
+
+resource "random_integer" "priority" {
+  min = 1
+  max = 50
+
+}
+
 resource "aws_kms_alias" "codebuild" {
-  name          = "alias/key/${var.project}"
+  name          = "alias/KMS-KEY-${var.project}"
   target_key_id = aws_kms_key.codebuild.key_id
 }
 
@@ -66,7 +76,7 @@ resource "aws_codebuild_project" "CodeBuild_Project" {
   service_role   = var.codebuild_role
 
   artifacts {
-    name                   = "${var.project}-codebuild-artifact"
+    name                   = "${var.project}-codebuild-artifact-${random_integer.priority.result}"
     override_artifact_name = false
     packaging              = "NONE"
     type                   = "CODEPIPELINE"
@@ -79,14 +89,14 @@ resource "aws_codebuild_project" "CodeBuild_Project" {
     type                        = "LINUX_CONTAINER"
   }
 
-  logs_config {
-    # CHANGE TO ENABLED TO ENABLE CLOUDWATCH LOGS
-    cloudwatch_logs {
-      group_name  = "${aws_codebuild_project.CodeBuild_Project.name}-log-group"
-      stream_name = "${aws_codebuild_project.CodeBuild_Project.name}-log-stream"
-      status      = "DISABLED"
-    }
-  }
+  # logs_config {
+  #   # CHANGE TO ENABLED TO ENABLE CLOUDWATCH LOGS
+  #   cloudwatch_logs {
+  #     group_name  = "${var.project}-codebuild-project-log-group"
+  #     stream_name = "${var.project}-codebuild-project-log-stream"
+  #     status      = "DISABLED"
+  #   }
+  # }
 
   source {
     git_clone_depth = 0
@@ -121,5 +131,37 @@ resource "aws_codebuild_project" "CodeBuild_Project" {
   tags = { Name = "${var.project}-Codebuild-ManagedBy-Terraform" }
 }
 
+resource "aws_codebuild_project" "build_react" {
+  name           = "${var.project}-build"
+  encryption_key = aws_kms_key.codebuild.arn
+  service_role   = var.codebuild_role
 
+  artifacts {
+    name = "${var.project}-codebuild-artifact-${random_integer.priority.result}"
+    type = "CODEPIPELINE"
+  }
+
+  environment {
+    compute_type                = "BUILD_GENERAL1_SMALL"
+    image                       = "aws/codebuild/standard:6.0"
+    image_pull_credentials_type = "CODEBUILD"
+    type                        = "LINUX_CONTAINER"
+  }
+
+  source {
+    type            = "CODEPIPELINE"
+    buildspec       = "${path.module}/buildspec-react.yml"
+    git_clone_depth = 0
+    # insecure_ssl    = false
+
+  }
+  logs_config {
+    # CHANGE TO ENABLED TO ENABLE CLOUDWATCH LOGS
+    cloudwatch_logs {
+      group_name  = "${var.project}-build-log-group"
+      stream_name = "${var.project}-build-log-stream"
+      status      = "ENABLED"
+    }
+  }
+}
 

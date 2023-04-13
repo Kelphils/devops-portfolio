@@ -9,21 +9,19 @@ variable "name_in" {
 # Deployment details
 
 variable "codebuild_project_name" {
+  description = "The name of the CodeBuild project"
+  type        = string
 }
 
-variable "namespace" {
-  default = "global"
-}
+# variable "namespace" {
+#   default = "global"
+# }
 
-# S3 Bucket, IAM Role, Codestar Connection
+# IAM Role, Codestar Connection
 
-variable "s3_bucket_name" {
-}
-
-variable "iam_role_arn" {
-}
-
-variable "codestar_connection_arn" {
+variable "code_pipeline_role_arn" {
+  description = "The ARN of the CodePipeline role"
+  type        = string
 }
 
 variable "project" {
@@ -31,3 +29,20 @@ variable "project" {
   default     = "Cv-React-App"
   type        = string
 }
+
+variable "kms_key_arn" {
+  description = "The ARN of the KMS key"
+  type        = string
+}
+
+variable "codedeploy_app_name" {
+  description = "The name of the CodeDeploy application"
+  type        = string
+}
+
+variable "codedeploy_deployment_group_name" {
+  description = "The name of the CodeDeploy deployment group"
+  type        = string
+}
+
+
