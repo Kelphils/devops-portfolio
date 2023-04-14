@@ -1,0 +1,101 @@
+name: Infrastructure Deployment
+
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+     - master
+
+permissions:
+  id-token: write
+  contents: read
+
+
+jobs:
+
+  #----------------------------------------------
+  #-------Setup Infrastructure-------------------
+  #----------------------------------------------
+
+  setup_react-app-nginx-deployment:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      #----------------------------------------------
+      # ----- Authenticate With AWS Credentials -----
+      #----------------------------------------------
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      #----------------------------------------------
+      # --- Setup Terraform with specific version ---
+      #----------------------------------------------
+      - name: Setup Terraform
+        run: |
+          # change directory to /tmp to avoid conflicts with terraform folder containing the infrastruture code
+          cd /tmp
+          sudo apt install wget curl unzip
+          TER_VER=`curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut -d: -f2 | tr -d \"\,\v | awk '{$1=$1};1'`
+          wget https://releases.hashicorp.com/terraform/${TER_VER}/terraform_${TER_VER}_linux_amd64.zip
+          unzip terraform_${TER_VER}_linux_amd64.zip
+          sudo mv -f terraform /bin/terraform
+        # uses: hashicorp/setup-terraform@v2
+        # with:
+        #   terraform_version: 1.3.7
+        #   terraform_wrapper: false
+
+      - name: View versions of tools
+        run: |
+          echo "Terraform version: $(terraform version)"
+    #----------------------------------------------
+    #----  Setup Infrastructure   -----------------
+    #----------------------------------------------
+
+      - name: Terraform init
+        run: |
+          cd terraform
+          terraform init -backend-config=backend.hcl
+      - name: Terraform validate
+        run: |
+          cd terraform
+          terraform validate
+      - name: Terraform plan
+        run: |
+          cd terraform
+          terraform plan
+      - name: Terraform apply
+        run: |
+          cd terraform
+          terraform apply -auto-approve
+      - name: Terraform Apply -v2
+        run: |
+          cd terraform
+          terraform apply -auto-approve
+      - name: Initialize codepipeline
+        id: codepipeline
+        run: |
+          cd terraform
+          # Get Codepipeline Name from terraform output with -json flag
+          export CODEPIPELINE_NAME=$(terraform output -json codepipeline_name | jq -r '.["Repo-1"]') 
+          echo "Aws CodePipeline Name: $CODEPIPELINE_NAME"
+
+
+    #------------------------------------------------------------------
+    #             ----- Trigger Aws CodePipeline -----
+    #------------------------------------------------------------------
+      - name: Trigger Pipeline
+        run: |
+          cd terraform
+          aws codepipeline start-pipeline-execution \
+            --name $CODEPIPELINE_NAME

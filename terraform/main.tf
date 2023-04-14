@@ -41,8 +41,7 @@ module "targetGroup" {
 }
 
 module "webServer" {
-  source = "./modules/webServer"
-  #   alb_tls_cert_arn = module.acm.acm_certificate_arn
+  source                  = "./modules/webServer"
   aws_lb_target_group_arn = module.targetGroup.target_group_arn
   security_groups         = module.securityGroup.instance_sg_id
   instance_profile        = module.iam.cw_agent_instance_profile

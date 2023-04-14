@@ -150,7 +150,7 @@ resource "aws_codebuild_project" "build_react" {
 
   source {
     type            = "CODEPIPELINE"
-    buildspec       = "../../../buildspec.yml"
+    buildspec       = "buildspec.yml"
     git_clone_depth = 0
     # insecure_ssl    = false
 
