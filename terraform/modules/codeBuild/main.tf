@@ -143,7 +143,7 @@ resource "aws_codebuild_project" "build_react" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/standard:6.0"
+    image                       = "aws/codebuild/standard:5.0"
     image_pull_credentials_type = "CODEBUILD"
     type                        = "LINUX_CONTAINER"
   }
