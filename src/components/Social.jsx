@@ -12,7 +12,7 @@ const styles = {
 };
 
 function Social() {
-  const theme = useContext(ThemeContext);
+  const { socialIconBgColor } = useContext(ThemeContext);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function Social() {
           style={styles.iconStyle}
           url={social.href}
           network={social.network}
-          bgColor={theme.socialIconBgColor}
+          bgColor={socialIconBgColor}
           target="_blank"
           rel="noopener"
         />

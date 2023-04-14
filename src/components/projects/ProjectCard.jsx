@@ -34,7 +34,12 @@ const styles = {
 };
 
 const ProjectCard = (props) => {
-  const theme = useContext(ThemeContext);
+  // const theme = useContext(ThemeContext);
+  const { cardBorderColor } = useContext(ThemeContext);
+  const { cardBackground } = useContext(ThemeContext);
+  const { bsSecondaryVariant } = useContext(ThemeContext);
+  const { cardFooterBackground } = useContext(ThemeContext);
+  const { bsPrimaryVariant } = useContext(ThemeContext);
   const parseBodyText = (text) => <ReactMarkdown children={text} />;
 
   const { project } = props;
@@ -44,10 +49,10 @@ const ProjectCard = (props) => {
       <Card
         style={{
           ...styles.cardStyle,
-          backgroundColor: theme.cardBackground,
-          borderColor: theme.cardBorderColor,
+          backgroundColor: cardBackground,
+          borderColor: cardBorderColor,
         }}
-        text={theme.bsSecondaryVariant}
+        text={bsSecondaryVariant}
       >
         <Card.Img variant="top" src={project?.image} />
         <Card.Body>
@@ -62,7 +67,7 @@ const ProjectCard = (props) => {
             <Button
               key={link.href}
               style={styles.buttonStyle}
-              variant={'outline-' + theme.bsSecondaryVariant}
+              variant={'outline-' + bsSecondaryVariant}
               onClick={() => window.open(link.href, '_blank')}
             >
               {link.text}
@@ -70,13 +75,13 @@ const ProjectCard = (props) => {
           ))}
         </Card.Body>
         {project.tags && (
-          <Card.Footer style={{ backgroundColor: theme.cardFooterBackground }}>
+          <Card.Footer style={{ backgroundColor: cardFooterBackground }}>
             {project.tags.map((tag) => (
               <Badge
                 key={tag}
                 pill
-                bg={theme.bsSecondaryVariant}
-                text={theme.bsPrimaryVariant}
+                bg={bsSecondaryVariant}
+                text={bsPrimaryVariant}
                 style={styles.badgeStyle}
               >
                 {tag}

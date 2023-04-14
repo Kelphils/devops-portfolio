@@ -38,7 +38,8 @@ const renderItems = (items) => (
   </div>
 );
 function Education(props) {
-  const theme = useContext(ThemeContext);
+  const { accentColor } = useContext(ThemeContext);
+  const { chronoTheme } = useContext(ThemeContext);
   const { header } = props;
   const [data, setData] = useState(null);
   const [width, setWidth] = useState('50vw');
@@ -87,11 +88,11 @@ function Education(props) {
                 cardHeight={250}
                 mode={mode}
                 theme={{
-                  primary: theme.accentColor,
-                  secondary: theme.accentColor,
-                  cardBgColor: theme.chronoTheme.cardBgColor,
-                  cardForeColor: theme.chronoTheme.cardForeColor,
-                  titleColor: theme.chronoTheme.titleColor,
+                  primary: accentColor,
+                  secondary: accentColor,
+                  cardBgColor: chronoTheme.cardBgColor,
+                  cardForeColor: chronoTheme.cardForeColor,
+                  titleColor: chronoTheme.titleColor,
                 }}
               >
                 <div />

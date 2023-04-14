@@ -18,7 +18,7 @@ const styles = {
 };
 
 const Projects = (props) => {
-  const theme = useContext(ThemeContext);
+  const { bsSecondaryVariant } = useContext(ThemeContext);
   const { header } = props;
   const [data, setData] = useState(null);
   const [showMore, setShowMore] = useState(false);
@@ -51,7 +51,7 @@ const Projects = (props) => {
                 && (
                 <Button
                   style={styles.showMoreStyle}
-                  variant={theme.bsSecondaryVariant}
+                  variant={bsSecondaryVariant}
                   onClick={() => setShowMore(true)}
                 >
                   show more
