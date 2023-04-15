@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xe
 sudo apt-get update -y
 sudo apt-get install ruby -y
 sudo apt-get install wget -y
@@ -8,3 +8,4 @@ chmod +x ./install
 sudo ./install auto
 service codedeploy-agent start
 rm install
+

@@ -38,8 +38,12 @@ wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-
 sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 # git clone https://github.com/Kelphils/devops-portfolio.git
 sleep 10
-sudo sh -c 'cp /home/ubuntu/devops-portfolio/terraform/cw_agent_config.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
-sudo sh -c 'cp /home/ubuntu/devops-portfolio/terraform/cw_agent_config.json .'
+# Update Cloudwatch agent config with EC2 Tag Name
+sudo sh -c 'sed -ie "s/{tagname}/$TAG_VALUE/g" /home/ubuntu/devops-portfolio/config/cloudwatch/amazon-cloudwatch-agent.json'
+sudo sh -c 'cp /config/cloudwatch/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
+sudo sh -c 'cp /home/ubuntu/devops-portfolio/config/cloudwatch/amazon-cloudwatch-agent.json .'
+
+# start cloudwatch agent
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
 
 # check if cloudwatch_agent is running

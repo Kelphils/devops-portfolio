@@ -36,6 +36,6 @@ hooks:
       timeout: 600
       runas: ubuntu
   ApplicationStart:
-        - location: scripts/setup-cloudwatch-agent
-          timeout: 600
-          runas: ubuntu 
+    - location: scripts/setup-cloudwatch-agent
+      timeout: 600
+      runas: ubuntu 

@@ -36,7 +36,6 @@ resource "aws_launch_configuration" "webserver" {
     device_name           = "${var.project}-ebs-volume"
     volume_size           = 10
     volume_type           = "gp2"
-    iops                  = 3000
     delete_on_termination = true
   }
   # Render the User Data script as a template which is a bash script created in the current directory
