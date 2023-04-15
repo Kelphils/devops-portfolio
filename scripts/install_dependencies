@@ -1,0 +1,141 @@
+#!/bin/bash -e
+
+sudo apt-get update -y
+
+# check if codedeploy agent is installed and running
+if dpkg -s codedeploy-agent &> /dev/null; then
+    echo "codedeploy-agent is installed"
+    
+    if systemctl status codedeploy-agent >/dev/null 2>&1; then
+        echo "codedeploy-agent is running"
+    else
+        echo "codedeploy-agent is not running"
+        sudo systemctl start codedeploy-agent
+    fi
+else
+    echo "codedeploy-agent is not installed"
+    sudo apt-get install ruby -y
+    sudo apt-get install wget -y
+    cd /tmp
+    wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
+    chmod +x ./install
+    sudo ./install auto
+    sudo systemctl start codedeploy-agent
+    rm install
+fi
+
+
+# check if jq is installed
+if [ -x "$(command -v jq)" ]; then
+    echo "jq is installed"
+else
+    echo "jq is not installed"
+    sudo apt-get install jq -y
+fi
+
+# check if nginx is installed
+if [ -x "$(command -v nginx)" ]; then
+  echo 'nginx is already installed'
+else
+  echo 'nginx is not installed'
+  sudo apt-get --purge remove nginx-* -y
+  sudo apt-get install nginx -y
+fi
+
+# check if aws cli version is 2.x
+if [[ ! -x "$(command -v aws)" ]] || [[ $(aws --version 2>&1 | cut -d " " -f1 | cut -d "/" -f2 | cut -d "." -f1) != "2" ]]; then
+    echo "aws-cli version 2.0.0 or higher is required"
+
+    if [ -f "/bin/aws" ]
+    then
+        sudo rm -rf /bin/aws
+        echo "aws-cli removed"
+    else
+        echo "aws cli 1 already removed"
+    fi
+
+    cd /tmp
+
+    if [ -d "aws" ]
+    then
+        echo "aws installation folder already here"
+    else
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip -u awscliv2.zip
+        echo "Unzipped aws cli"
+    fi
+
+    if [ -d "/usr/local/aws-cli" ]
+    then
+        sudo rm -rf /usr/local/aws-cli
+        echo "aws-cli removed"
+    else
+        echo "aws installation folder already removed"
+    fi
+
+    sudo ./aws/install -b /usr/bin
+
+    echo "aws cli installed"
+
+else
+    echo "aws-cli version 2.0.0 or higher is already installed"
+fi
+
+# check if nodejs 14.x is installed
+if [[ ! -x "$(command -v node)" ]] || [[ $(node -v | cut -d "v" -f2 | cut -d "." -f1) != "14" ]]; then
+    echo "nodejs version 14.x is required"
+
+    if [ -f "/bin/node" ]
+    then
+        sudo rm -rf /bin/node
+        echo "nodejs removed"
+    else
+        echo "nodejs already removed"
+    fi
+
+    if [ -f "/bin/npm" ]
+    then
+        sudo rm -rf /bin/npm
+        echo "npm removed"
+    else
+        echo "npm already removed"
+    fi
+
+    if [ -d "/usr/local/lib/nodejs" ]
+    then
+        sudo rm -rf /usr/local/lib/nodejs
+        echo "nodejs removed"
+    else
+        echo "nodejs already removed"
+    fi
+
+    cd /tmp
+
+    if [ -d "nodejs" ]
+    then
+        echo "nodejs installation folder already here"
+    else
+        curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+        sudo bash nodesource_setup.sh
+        echo "nodejs setup"
+    fi
+
+    sudo apt-get install nodejs -y
+
+    echo "nodejs installed"
+
+else
+    echo "nodejs version 14.x is already installed"
+fi
+
+REQUIRED_PKG="amazon-cloudwatch-agent"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed" || true)
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+  echo "amazon-cloudwatch-agent is not installed"
+  cd /tmp
+  wget https://s3.amazonaws.com/amazoncloudwatch-agent/debian/amd64/latest/amazon-cloudwatch-agent.deb
+  sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
+fi
+
+echo "Dependencies installed successfully"

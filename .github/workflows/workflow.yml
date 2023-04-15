@@ -89,6 +89,12 @@ jobs:
         run: |
           cd terraform
           terraform apply -auto-approve
+
+
+    #------------------------------------------------------------------
+    #             ----- Trigger Aws CodePipeline -----
+    #------------------------------------------------------------------
+
       - name: Initialize codepipeline
         id: codepipeline
         run: |
@@ -97,12 +103,3 @@ jobs:
           export CODEPIPELINE_NAME=$(terraform output -json codepipeline_name | jq -r '.["Repo-1"]') 
           echo "Aws CodePipeline Name: $CODEPIPELINE_NAME"
           aws codepipeline start-pipeline-execution --name $CODEPIPELINE_NAME
-
-
-    #------------------------------------------------------------------
-    #             ----- Trigger Aws CodePipeline -----
-    #------------------------------------------------------------------
-      # - name: Trigger Pipeline
-      #   run: |
-      #     cd terraform
-      #     aws codepipeline start-pipeline-execution --name $CODEPIPELINE_NAME

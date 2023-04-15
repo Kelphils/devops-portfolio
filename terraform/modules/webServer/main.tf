@@ -32,6 +32,13 @@ resource "aws_launch_configuration" "webserver" {
   iam_instance_profile        = var.instance_profile
   key_name                    = var.key_name
   associate_public_ip_address = true
+  ebs_block_device {
+    device_name           = "${var.project}-ebs-volume"
+    volume_size           = 10
+    volume_type           = "gp2"
+    iops                  = 3000
+    delete_on_termination = true
+  }
   # Render the User Data script as a template which is a bash script created in the current directory
   user_data = file("user-data.tpl")
 
@@ -79,14 +86,15 @@ resource "aws_autoscaling_policy" "web_asg_policy_up" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "web_asg_cpu_alarm_up" {
-  alarm_name          = "${var.project}_web_asg_cpu_alarm_up"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "2"
-  metric_name         = "CPUUtilization"
-  namespace           = "AWS/EC2"
-  period              = "120"
-  statistic           = "Average"
-  threshold           = "75"
+  alarm_name                = "${var.project}_web_asg_cpu_alarm_up"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "CPUUtilization"
+  namespace                 = "AWS/EC2"
+  period                    = "120"
+  statistic                 = "Average"
+  threshold                 = "75"
+  insufficient_data_actions = []
 
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.webserver_group.name

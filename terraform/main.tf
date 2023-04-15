@@ -7,7 +7,6 @@ locals {
   deployment = {
     Repo-1 = {
       repo = "Kelphils/devops-portfolio"
-      # codepipeline_name = "${module.codePipeline.codepipeline_name}"
     }
     # Repo-2 = {
     #   repo = "GitHub-Account-Name/Repo-2-Name"

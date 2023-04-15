@@ -28,6 +28,7 @@ resource "aws_codepipeline" "pipeline" {
         ConnectionArn    = aws_codestarconnections_connection.github_codepipeline.arn
         FullRepositoryId = "${var.repository_in}"
         BranchName       = "master"
+        DetectChanges    = "true"
         # PollForSourceChanges = "true"
       }
     }
