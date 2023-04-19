@@ -69,7 +69,7 @@ resource "aws_autoscaling_group" "webserver_group" {
 
   tag {
     key                 = "Name"
-    value               = "${var.project}-Asg-ManagedBy-Terraform"
+    value               = "${var.project}-Instance-ManagedBy-Terraform"
     propagate_at_launch = true
   }
 }
