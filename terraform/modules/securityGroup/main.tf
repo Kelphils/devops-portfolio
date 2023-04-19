@@ -119,14 +119,14 @@ resource "aws_security_group_rule" "allow_all_instance_outbound" {
   ipv6_cidr_blocks = local.ipv6_ips
 }
 
-resource "aws_security_group_rule" "allow_alb_inbound" {
-  type              = "ingress"
-  security_group_id = aws_security_group.instance_sg.id
-  description       = "Allow inbound traffic from the ALB security group"
+# resource "aws_security_group_rule" "allow_alb_inbound" {
+#   type              = "ingress"
+#   security_group_id = aws_security_group.instance_sg.id
+#   description       = "Allow inbound traffic from the ALB security group"
 
-  # Allow traffic from the ALB security group
-  from_port                = local.any_port
-  to_port                  = local.any_port
-  protocol                 = local.tcp_protocol
-  source_security_group_id = aws_security_group.alb_sg.id
-}
+#   # Allow traffic from the ALB security group
+#   from_port                = local.any_port
+#   to_port                  = local.any_port
+#   protocol                 = local.tcp_protocol
+#   source_security_group_id = aws_security_group.alb_sg.id
+# }
