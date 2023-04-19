@@ -1,6 +1,6 @@
 #!/bin/bash -e
 echo "Installing dependencies"
-exit 0
+# exit 0
 
 sudo apt-get update -y
 
