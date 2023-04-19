@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+echo "setup cloudwatch agent"
+
+exit 0
+
 # Update Cloudwatch agent config with EC2 Tag Name
 sudo sh -c 'sed -ie "s/{tagname}/$TAG_VALUE/g" /config/cloudwatch/amazon-cloudwatch-agent.json'
 
