@@ -22,149 +22,141 @@
 		  }
 		}
 	  },
-	"metrics": {
+	  "metrics": {
+		"append_dimensions": {
+		  "AutoScalingGroupName": "${aws:AutoScalingGroupName}",
+		  "ImageId": "${aws:ImageId}",
+		  "InstanceId": "${aws:InstanceId}",
+		  "InstanceType": "${aws:InstanceType}"
+		},
+		"metrics_collected": {
+		  "cpu": {
+			"measurement": [
+			  "cpu_usage_idle",
+			  "cpu_usage_iowait",
+			  "cpu_usage_user",
+			  "cpu_usage_system",
+			  {
+				"name": "cpu_usage_idle",
+				"rename": "CPU_USAGE_IDLE",
+				"unit": "Percent"
+			  },
+			  {
+				"name": "cpu_usage_nice",
+				"unit": "Percent"
+			  },
+			  "cpu_usage_guest"
+			],
+			"metrics_collection_interval": 60,
 			"append_dimensions": {
-				"AutoScalingGroupName": "${aws:AutoScalingGroupName}",
-				"ImageId": "${aws:ImageId}",
-				"InstanceId": "${aws:InstanceId}",
-				"InstanceType": "${aws:InstanceType}"
+			  "ApplicationName": "{tagname}"
 			},
-			"metrics": {
-				"append_dimensions": {
-				  "AutoScalingGroupName": "${aws:AutoScalingGroupName}",
-				  "ImageId": "${aws:ImageId}",
-				  "InstanceId": "${aws:InstanceId}",
-				  "InstanceType": "${aws:InstanceType}"
-				},
-				"metrics_collected": {
-				  "cpu": {
-					"measurement": [
-					  "cpu_usage_idle",
-					  "cpu_usage_iowait",
-					  "cpu_usage_user",
-					  "cpu_usage_system",
-					  {
-						"name": "cpu_usage_idle",
-						"rename": "CPU_USAGE_IDLE",
-						"unit": "Percent"
-					  },
-					  {
-						"name": "cpu_usage_nice",
-						"unit": "Percent"
-					  },
-					  "cpu_usage_guest"
-					],
-					"metrics_collection_interval": 60,
-					"append_dimensions": {
-					  "ApplicationName": "{tagname}"
-					},
-					"resources": [
-					  "*"
-					],
-					"totalcpu": false
-				  },
-				  "disk": {
-					"resources": [
-					  "/",
-					  "/tmp"
-					],
-					"measurement": [
-					  "used_percent",
-					  "inodes_free",
-					  {
-						"name": "free",
-						"rename": "DISK_FREE",
-						"unit": "Gigabytes"
-					  },
-					  "total",
-					  "used"
-					],
-					"ignore_file_system_types": [
-					  "sysfs",
-					  "devtmpfs"
-					],
-					"metrics_collection_interval": 60,
-					"append_dimensions": {
-					  "ApplicationName": "{tagname}"
-					}
-				  },
-				  "diskio": {
-					"resources": [
-					  "*"
-					],
-					"measurement": [
-					  "reads",
-					  "writes",
-					  "write_bytes",
-					  "read_bytes",
-					  "read_time",
-					  "write_time",
-					  "io_time"
-					],
-					"metrics_collection_interval": 60,
-					"append_dimensions": {
-					  "ApplicationName": "{tagname}"
-					}
-				  },
-				  "mem": {
-					"measurement": [
-					  "mem_used",
-					  "mem_cached",
-					  "mem_total",
-					  "mem_used_percent"
-					],
-					"metrics_collection_interval": 60,
-					"append_dimensions": {
-					  "ApplicationName": "{tagname}"
-					}
-				  },
-				  "net": {
-					"resources": [
-					  "eth0"
-					],
-					"measurement": [
-					  "bytes_sent",
-					  "bytes_recv",
-					  "drop_in",
-					  "drop_out"
-					]
-				  },
-				  "netstat": {
-					"measurement": [
-					  "tcp_established",
-					  "tcp_syn_sent",
-					  "tcp_close",
-					  "tcp_time_wait"
-					],
-					"metrics_collection_interval": 60
-				  },
-				  "processes": {
-					"measurement": [
-					  "running",
-					  "sleeping",
-					  "dead"
-					]
-				  },
-				  "statsd": {
-					"metrics_aggregation_interval": 60,
-					"metrics_collection_interval": 10,
-					"service_address": ":8125"
-				  },
-				  "swap": {
-					"measurement": [
-					  "swap_used",
-					  "swap_free",
-					  "swap_used_percent"
-					],
-					"metrics_collection_interval": 60
-				  }
-				},
-				"aggregation_dimensions": [
-				  [
-					"ApplicationName"
-				  ]
-				],
-				"force_flush_interval": 60
-			  }
+			"resources": [
+			  "*"
+			],
+			"totalcpu": false
+		  },
+		  "disk": {
+			"resources": [
+			  "/",
+			  "/tmp"
+			],
+			"measurement": [
+			  "used_percent",
+			  "inodes_free",
+			  {
+				"name": "free",
+				"rename": "DISK_FREE",
+				"unit": "Gigabytes"
+			  },
+			  "total",
+			  "used"
+			],
+			"ignore_file_system_types": [
+			  "sysfs",
+			  "devtmpfs"
+			],
+			"metrics_collection_interval": 60,
+			"append_dimensions": {
+			  "ApplicationName": "{tagname}"
 			}
+		  },
+		  "diskio": {
+			"resources": [
+			  "*"
+			],
+			"measurement": [
+			  "reads",
+			  "writes",
+			  "write_bytes",
+			  "read_bytes",
+			  "read_time",
+			  "write_time",
+			  "io_time"
+			],
+			"metrics_collection_interval": 60,
+			"append_dimensions": {
+			  "ApplicationName": "{tagname}"
+			}
+		  },
+		  "mem": {
+			"measurement": [
+			  "mem_used",
+			  "mem_cached",
+			  "mem_total",
+			  "mem_used_percent"
+			],
+			"metrics_collection_interval": 60,
+			"append_dimensions": {
+			  "ApplicationName": "{tagname}"
+			}
+		  },
+		  "net": {
+			"resources": [
+			  "eth0"
+			],
+			"measurement": [
+			  "bytes_sent",
+			  "bytes_recv",
+			  "drop_in",
+			  "drop_out"
+			]
+		  },
+		  "netstat": {
+			"measurement": [
+			  "tcp_established",
+			  "tcp_syn_sent",
+			  "tcp_close",
+			  "tcp_time_wait"
+			],
+			"metrics_collection_interval": 60
+		  },
+		  "processes": {
+			"measurement": [
+			  "running",
+			  "sleeping",
+			  "dead"
+			]
+		  },
+		  "statsd": {
+			"metrics_aggregation_interval": 60,
+			"metrics_collection_interval": 10,
+			"service_address": ":8125"
+		  },
+		  "swap": {
+			"measurement": [
+			  "swap_used",
+			  "swap_free",
+			  "swap_used_percent"
+			],
+			"metrics_collection_interval": 60
+		  }
+		},
+		"aggregation_dimensions": [
+		  [
+			"ApplicationName"
+		  ]
+		],
+		"force_flush_interval": 60
+	  }
 		}

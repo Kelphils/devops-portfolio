@@ -125,8 +125,8 @@ resource "aws_security_group_rule" "allow_alb_inbound" {
   description       = "Allow inbound traffic from the ALB security group"
 
   # Allow traffic from the ALB security group
-  from_port                = local.server_port
-  to_port                  = local.server_port
+  from_port                = local.any_port
+  to_port                  = local.any_port
   protocol                 = local.tcp_protocol
   source_security_group_id = aws_security_group.alb_sg.id
 }
