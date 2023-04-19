@@ -15,10 +15,8 @@ phases:
 
 artifacts:
   files:
-    - "**/*"
-  name: "web-dist"
-  base-directory: build
+    - appspec.yml
+    - build/**/*
+    - scripts/**/*
+    - config/**/*
 
-cache:
-  paths:
-    - /root/.npm/**/*

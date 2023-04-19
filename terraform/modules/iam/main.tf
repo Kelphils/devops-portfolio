@@ -79,27 +79,6 @@ resource "aws_iam_role_policy_attachment" "codedeploy_s3_fullaccess_attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
-resource "aws_iam_role_policy" "codedeploy_policy" {
-  name   = "${var.project}_codedeploy_new_policy"
-  role   = aws_iam_role.codedeploy_role.name
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": [
-                    "codedeploy.us-east-1.amazonaws.com",
-                ]
-            },
-            "Action": "sts:AssumeRole"
-        }
-    ]
-}
-EOF
-}
 
 #EC2 service role for cloud watch agent
 resource "aws_iam_role" "ec2_cw_agent_role" {
