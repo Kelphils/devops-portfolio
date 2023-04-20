@@ -10,6 +10,9 @@ sudo ./install auto
 service codedeploy-agent start
 rm install
 
+# uninstall nginx
+sudo apt-get --purge remove nginx-* -y
+
 # install nodejs 14
 # cd /home/ubuntu
 # curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
@@ -54,3 +57,6 @@ rm install
 
 # remove amazon-cloudwatch-agent.deb
 # sudo rm -rf /home/ubuntu/amazon-cloudwatch-agent.deb
+
+# view code deploy logs
+# cd /opt/codedeploy-agent/deployment-root/431b4347-54c4-47e5-bdee-c60a7376a810
