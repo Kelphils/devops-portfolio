@@ -52,12 +52,6 @@ module "dns" {
   alb_zone_id  = module.alb.alb_zone_id
 }
 
-# module "ci-cd-server" {
-#   source           = "./modules/ci-cd-server"
-#   security_groups  = module.securityGroup.instance_sg_id
-#   instance_profile = module.iam.codedeploy_instance_profile
-
-# }
 
 module "codeDeploy" {
   source               = "./modules/codeDeploy"

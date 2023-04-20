@@ -11,7 +11,7 @@ service codedeploy-agent start
 rm install
 
 # uninstall nginx
-sudo apt-get --purge remove nginx-* -y
+# sudo apt-get --purge remove nginx-* -y
 
 # install nodejs 14
 # cd /home/ubuntu
