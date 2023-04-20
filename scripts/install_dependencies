@@ -1,6 +1,6 @@
 #!/bin/bash -e
 echo "Installing dependencies"
-# exit 0
+
 
 sudo apt-get update -y
 
@@ -141,3 +141,5 @@ if [ "" = "$PKG_OK" ]; then
 fi
 
 echo "Dependencies installed successfully"
+
+sudo rm -rf /home/ubuntu/amazon-cloudwatch-agent.deb
