@@ -26,17 +26,17 @@ fi
 echo "Tag Value: $TAG_VALUE"
 
 # Update Cloudwatch agent config with EC2 Tag Name 
-sudo sed -ie "s/{tagname}/$TAG_VALUE/g" /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json
+sudo sed -ie "s/{tagname}/$TAG_VALUE/g" /home/ubuntu/amazon-cloudwatch-agent.json
 
-# sudo sh -c 'cp -r /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
+sudo cp -r /home/ubuntu/amazon-cloudwatch-agent.json /home/ubuntu/amazon-cloudwatch-agent-config.json
 
 # Check if string in file
-if grep -q "{tagname}" /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json; then
+if grep -q "{tagname}" /home/ubuntu/amazon-cloudwatch-agent-config.json; then
   echo "cloudwatch agent not started. Configuration not updated"
 else
   # start cloudwatch agent
   if [[ -f "/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl" ]] && [[ $(sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m ec2 -a status) != *'"status": "running"'* ]]; then
-      sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/home/ubuntu/amazon-cloudwatch-agent.json
+      sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/home/ubuntu/amazon-cloudwatch-agent-config.json
       echo "Cloudwatch started"
   else
       echo "cloudwatch agent is not available or running"
