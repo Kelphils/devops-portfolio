@@ -5,7 +5,7 @@ echo "setup cloudwatch agent"
 # Get Tag Name of EC2 Instance by querying the metadata 
 TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"`
 INSTANCE_ID=`curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/instance-id`
-REGION=`curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/.$//'
+REGION=`curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/.$//'`
 
 # Get Tag value using AWS CLI to query
 TAG_VALUE=$(aws ec2 describe-tags --region $REGION --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values='Name'")
@@ -23,18 +23,20 @@ else
     TAG_VALUE="{tagname}"
 fi
 
-# Update Cloudwatch agent config with EC2 Tag Name 
-sudo sh -c 'sed -ie "s/{tagname}/$TAG_VALUE/g" /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json'
+echo "Tag Value: $TAG_VALUE"
 
-sudo sh -c 'cp -r /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
+# Update Cloudwatch agent config with EC2 Tag Name 
+sudo sed -ie "s/{tagname}/$TAG_VALUE/g" /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json
+
+# sudo sh -c 'cp -r /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
 
 # Check if string in file
-if grep -q "{tagname}" /config/cloudwatch/amazon-cloudwatch-agent-config.json; then
+if grep -q "{tagname}" /home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json; then
   echo "cloudwatch agent not started. Configuration not updated"
 else
   # start cloudwatch agent
   if [[ -f "/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl" ]] && [[ $(sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m ec2 -a status) != *'"status": "running"'* ]]; then
-      sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+      sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/home/ubuntu/amazon-cloudwatch-agent.json
       echo "Cloudwatch started"
   else
       echo "cloudwatch agent is not available or running"

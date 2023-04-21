@@ -1,6 +1,6 @@
 locals {
-  http_port    = 80
-  server_port  = 80
+  http_port = 80
+  # server_port  = 80
   https_port   = 443
   any_port     = 0
   ssh_port     = 22
@@ -93,18 +93,18 @@ resource "aws_security_group_rule" "allow_ssh_inbound" {
   cidr_blocks = local.all_ips
 }
 
-resource "aws_security_group_rule" "allow_nginx_inbound" {
-  type              = "ingress"
-  security_group_id = aws_security_group.instance_sg.id
-  description       = "Allow NGINX inbound traffic on port 80"
+# resource "aws_security_group_rule" "allow_nginx_inbound" {
+#   type              = "ingress"
+#   security_group_id = aws_security_group.instance_sg.id
+#   description       = "Allow NGINX inbound traffic on port 80"
 
-  # Allow inbound HTTP requests for NGINX
-  from_port        = local.server_port
-  to_port          = local.server_port
-  protocol         = local.tcp_protocol
-  cidr_blocks      = local.all_ips
-  ipv6_cidr_blocks = local.ipv6_ips
-}
+#   # Allow inbound HTTP requests for NGINX
+#   from_port        = local.server_port
+#   to_port          = local.server_port
+#   protocol         = local.tcp_protocol
+#   cidr_blocks      = local.all_ips
+#   ipv6_cidr_blocks = local.ipv6_ips
+# }
 
 resource "aws_security_group_rule" "allow_all_instance_outbound" {
   type              = "egress"
@@ -119,14 +119,14 @@ resource "aws_security_group_rule" "allow_all_instance_outbound" {
   ipv6_cidr_blocks = local.ipv6_ips
 }
 
-# resource "aws_security_group_rule" "allow_alb_inbound" {
-#   type              = "ingress"
-#   security_group_id = aws_security_group.instance_sg.id
-#   description       = "Allow inbound traffic from the ALB security group"
+resource "aws_security_group_rule" "allow_alb_inbound" {
+  type              = "ingress"
+  security_group_id = aws_security_group.instance_sg.id
+  description       = "Allow inbound traffic from the ALB security group"
 
-#   # Allow traffic from the ALB security group
-#   from_port                = local.any_port
-#   to_port                  = local.any_port
-#   protocol                 = local.tcp_protocol
-#   source_security_group_id = aws_security_group.alb_sg.id
-# }
+  # Allow traffic from the ALB security group
+  from_port                = local.http_port
+  to_port                  = local.http_port
+  protocol                 = local.tcp_protocol
+  source_security_group_id = aws_security_group.alb_sg.id
+}
