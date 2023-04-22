@@ -47,7 +47,7 @@ rm install
 # # sudo sh -c 'cp /home/ubuntu/devops-portfolio/config/cloudwatch/amazon-cloudwatch-agent.json .'
 
 # # start cloudwatch agent
-# sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
+# sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/ubuntu/config/cloudwatch/amazon-cloudwatch-agent.json -s
 
 # # check if cloudwatch_agent is running
 # sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m ec2 -a status
