@@ -85,6 +85,7 @@ jobs:
         run: |
           cd terraform
           terraform apply -auto-approve
+          sleep 10
       - name: Terraform Apply -v2
         run: |
           cd terraform

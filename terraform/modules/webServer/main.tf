@@ -151,7 +151,7 @@ resource "aws_cloudwatch_metric_alarm" "web_asg_mem_alarm_up" {
   threshold           = "80"
 
   dimensions = {
-    AutoScalingGroupName = aws_autoscaling_group.webserver_group.name
+    ApplicationName = "${var.project}-Instance-ManagedBy-Terraform"
   }
 
   alarm_description = "This metric monitors EC2 instance memory utilization"
@@ -178,7 +178,9 @@ resource "aws_cloudwatch_metric_alarm" "web_asg_mem_alarm_down" {
   threshold           = "20"
 
   dimensions = {
-    AutoScalingGroupName = aws_autoscaling_group.webserver_group.name
+    # let dimension be the name of webserver_group
+    ApplicationName = "${var.project}-Instance-ManagedBy-Terraform"
+    # AutoScalingGroupName = aws_autoscaling_group.webserver_group.name
   }
 
   alarm_description = "This metric monitors EC2 instance memory utilization"
