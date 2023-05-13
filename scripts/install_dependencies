@@ -1,7 +1,6 @@
 #!/bin/bash -e
 echo "Installing dependencies"
 
-
 sudo apt-get update -y
 
 # check if codedeploy agent is installed and running
@@ -140,6 +139,6 @@ if [ "" = "$PKG_OK" ]; then
   sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 fi
 
-echo "Dependencies installed successfully"
-
 sudo rm -rf /home/ubuntu/amazon-cloudwatch-agent.deb
+
+echo "Dependencies installed successfully"

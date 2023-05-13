@@ -37,9 +37,11 @@ resource "aws_launch_configuration" "webserver" {
     volume_size           = 10
     volume_type           = "gp2"
     delete_on_termination = true
+
   }
   # Render the User Data script as a template which is a bash script created in the current directory
   user_data = file("user-data.tpl")
+  # user_data_replace_on_change = true
 
   # Required when using a launch configuration with an auto scaling group.
   lifecycle {

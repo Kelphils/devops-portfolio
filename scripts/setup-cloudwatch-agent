@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-echo "setup cloudwatch agent"
+echo "setting up cloudwatch agent to collect metrics"
 
 # Get Tag Name of EC2 Instance by querying the metadata 
 TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"`
@@ -42,3 +42,5 @@ else
       echo "cloudwatch agent is not available or running"
   fi
 fi
+
+echo "cloudwatch agent setup complete"
